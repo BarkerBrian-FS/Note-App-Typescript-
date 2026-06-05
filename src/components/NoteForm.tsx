@@ -1,8 +1,8 @@
-import { useRef, type FormEvent } from "react";
+import { useRef, type FormEvent, useState } from "react";
 import { Col, Row, Stack, Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import CreatableSelect from "react-select/creatable";
-import type { NoteData } from "../App";
+import type { NoteData, Tag } from "../App";
 
 type NoteFormProps = {
     onSubmit: (data: NoteData) => void
@@ -11,9 +11,16 @@ type NoteFormProps = {
 export function NoteForm({ onSubmit }: NoteFormProps ){
     const titleRef = useRef<HTMLInputElement>(null)
     const markdownRef = useRef<HTMLTextAreaElement>(null)
+    const [selectedTags, setSelectedTags] = useState<Tag[]>([])
 
     function handleSubmit(e: FormEvent){
         e.preventDefault()
+
+        onSubmit({
+            title: titleRef.current!.value,
+            markdown: markdownRef.current!.value,
+            tags: [],
+        })
     }
     return <>
     <Form onSubmit={handleSubmit}>
@@ -28,7 +35,16 @@ export function NoteForm({ onSubmit }: NoteFormProps ){
                 <Col>
                     <Form.Group controlId="tags">
                         <Form.Label>Tags</Form.Label>
-                        <CreatableSelect isMulti/>
+                        <CreatableSelect 
+                        value={selectedTags.map(tag => {
+                            return { label: tag.label, value: tag.id }
+                        })}
+                        onChange={tags => {
+                            setSelectedTags(tags.map(tag => {
+                                return { label: tag.label, id: tag.value }
+                            }))
+                        }}
+                        isMulti/>
                     </Form.Group>
                 </Col>
             </Row>
