@@ -1,6 +1,6 @@
 import { type Note } from "../App"
 import { Navigate, Outlet, useOutletContext, useParams } from "react-router-dom"
-
+/* eslint-disable react-refresh/only-export-components */
 
 type NoteLayoutProps = {
     notes: Note[]
