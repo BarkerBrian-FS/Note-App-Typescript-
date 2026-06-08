@@ -7,6 +7,7 @@ import { useMemo } from "react"
 import { v4 as uuidV4 } from "uuid"
 import { NoteList } from "./components/NoteList"
 import { NoteLayout } from "./components/NoteLayout"
+import { Note } from "./components/Note"
 
 
 
@@ -74,7 +75,7 @@ function App() {
           onAddTag={addTag} 
           availableTags={tags}/>}/>
         <Route path="/:id" element={<NoteLayout notes={notesWithTags} />}>
-          <Route index element={<h1>Show</h1>} />
+          <Route index element={<Note />} />
           <Route path="/:id/edit" element={<h1>Edit</h1>} />
         </Route>
         <Route path="*" element={<Navigate to="/"/>}/>
